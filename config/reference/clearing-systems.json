@@ -1,0 +1,29 @@
+{
+  "source": "Member id formats of common clearing systems (ISO 20022 ExternalClearingSystemIdentification1Code). Extend as needed; systems not listed are only checked against the ISO code list.",
+  "formats": {
+    "USABA": { "pattern": "^[0-9]{9}$", "text": "9 digits (ABA routing number)" },
+    "USPID": { "pattern": "^[0-9]{4}$", "text": "4 digits (CHIPS participant id)" },
+    "GBDSC": { "pattern": "^[0-9]{6}$", "text": "6 digits (UK sort code)" },
+    "DEBLZ": { "pattern": "^[0-9]{8}$", "text": "8 digits (Bankleitzahl)" },
+    "ATBLZ": { "pattern": "^[0-9]{5}$", "text": "5 digits (Austrian bank code)" },
+    "CHBCC": { "pattern": "^[0-9]{3,5}$", "text": "3 to 5 digits (Swiss bank clearing code)" },
+    "CHSIC": { "pattern": "^[0-9]{6}$", "text": "6 digits (Swiss SIC code)" },
+    "CACPA": { "pattern": "^0[0-9]{8}$", "text": "9 digits starting with 0 (Canadian routing number)" },
+    "AUBSB": { "pattern": "^[0-9]{6}$", "text": "6 digits (BSB number)" },
+    "NZNCC": { "pattern": "^[0-9]{6}$", "text": "6 digits (New Zealand bank and branch)" },
+    "INFSC": { "pattern": "^[A-Z]{4}0[A-Z0-9]{6}$", "text": "11 characters: 4 letters, 0, 6 letters or digits (IFSC)" },
+    "HKNCC": { "pattern": "^[0-9]{3}$", "text": "3 digits (Hong Kong bank code)" },
+    "ZANCC": { "pattern": "^[0-9]{6}$", "text": "6 digits (South African branch code)" },
+    "CNAPS": { "pattern": "^[0-9]{12}$", "text": "12 digits (CNAPS code)" },
+    "RUCBC": { "pattern": "^[0-9]{9}$", "text": "9 digits (Russian BIK)" },
+    "IENCC": { "pattern": "^[0-9]{6}$", "text": "6 digits (Irish sort code)" },
+    "ITNCC": { "pattern": "^[0-9]{10}$", "text": "10 digits (ABI and CAB)" },
+    "ESNCC": { "pattern": "^[0-9]{8,9}$", "text": "8 or 9 digits (Spanish bank and branch)" },
+    "PTNCC": { "pattern": "^[0-9]{8}$", "text": "8 digits (Portuguese bank and branch)" },
+    "GRBIC": { "pattern": "^[0-9]{7}$", "text": "7 digits (Greek bank and branch)" },
+    "PLKNR": { "pattern": "^[0-9]{8}$", "text": "8 digits (Polish settlement number)" },
+    "JPZGN": { "pattern": "^[0-9]{7}$", "text": "7 digits (Zengin bank and branch)" },
+    "SESBA": { "pattern": "^[0-9]{4}$", "text": "4 digits (Swedish bank clearing number)" },
+    "TWNCC": { "pattern": "^[0-9]{7}$", "text": "7 digits (Taiwan bank and branch)" }
+  }
+}

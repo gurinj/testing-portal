@@ -1,0 +1,6 @@
+# build output, at the top of the project only (packages in tools/vendor/node_modules have dist/ folders the build needs)
+/build-tmp/
+/dist/
+.DS_Store
+# the bank's test files stay on the PC (docs/specs/M2.md, section 6)
+/tests/files/bank/

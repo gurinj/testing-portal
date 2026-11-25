@@ -1,0 +1,32 @@
+/* Testing Portal – technical check (About › Technical check). */
+.tc .back { margin-bottom: 14px; }
+.tc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; margin-top: 28px; align-items: start; }
+.tc-grid .wide { grid-column: 1 / -1; }
+
+.tc .kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0; margin-top: 12px; }
+.tc .kv > div { display: contents; }
+.tc .kv dt, .tc .kv dd { padding: 10px 0; border-bottom: 1px solid var(--g2); }
+.tc .kv dt { color: var(--ink-2); }
+.tc .kv dt small { display: block; color: var(--g5); font-size: 14.5px; }
+.tc .kv dd { text-align: right; padding-left: 12px; }
+.tc .kv dd small { display: block; font-size: 14px; color: var(--g5); max-width: 32ch; margin-left: auto; overflow-wrap: anywhere; }
+
+.checks li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 9px 0; border-bottom: 1px solid var(--g2); }
+.checks li .res { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 800; }
+.checks li .res.ok { background: var(--green-soft); color: var(--green); }
+.checks li .res.no { background: var(--red-soft); color: var(--red-dark); }
+.checks li .res.wait { background: var(--g1); color: var(--g5); }
+.checks li small { display: block; color: var(--g5); font-size: 14.5px; overflow-wrap: anywhere; }
+
+.speed td.ok { color: var(--green); font-weight: 700; }
+.speed td.no { color: var(--red-dark); font-weight: 700; }
+.bar { height: 8px; border-radius: 4px; background: var(--g2); overflow: hidden; margin-top: 6px; min-width: 80px; }
+.bar i { display: block; height: 100%; background: var(--ink); width: 0; transition: width .4s; }
+
+
+.out { width: 100%; min-height: 220px; margin-top: 12px; padding: 14px 16px; border: 2px solid var(--g3); border-radius: 12px; font: 13.5px/1.5 var(--mono); background: var(--g1); resize: vertical; }
+.acts { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+.tmsg { font-weight: 650; color: var(--green); }
+.tmsg.bad { color: var(--red-dark); }
+
+@media (max-width: 1020px) { .tc-grid { grid-template-columns: minmax(0, 1fr); } }

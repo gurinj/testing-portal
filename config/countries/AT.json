@@ -1,0 +1,26 @@
+{
+  "code": "AT",
+  "name": "Austria",
+  "currency": "EUR",
+  "sepa": true,
+  "versions": [
+    "03",
+    "09"
+  ],
+  "ibanLength": 20,
+  "characterSet": "basic-latin",
+  "paymentTypes": null,
+  "currencies": {},
+  "domestic": {
+    "serviceLevels": null,
+    "localInstruments": null,
+    "highValueThreshold": null
+  },
+  "budgetIbanPattern": null,
+  "bankBics": [],
+  "holidays": [],
+  "cutOff": null,
+  "settings": {},
+  "status": "draft",
+  "notes": "SEPA scope from EPC409-09 v8.0 (24 December 2025). Accepted versions, character set, holidays and cut-off to be confirmed with CMIplus. Country rules: rules/countries/AT.sch (empty for now)."
+}

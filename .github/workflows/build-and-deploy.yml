@@ -1,0 +1,44 @@
+# Builds, tests and publishes the Testing Portal (dist/site) to GitHub Pages on every push to main.
+# Repository settings: Pages > Source "GitHub Actions", visibility Private, variable DEPLOY_PAGES=true (docs/BUILD.md).
+name: Build and deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/build.js
+      # the offline file of every build, to download from the run's page (Actions › the run › Artifacts)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: testing-portal-offline
+          path: dist/testing-portal.html
+          retention-days: 30
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/site
+  # publishes only when the repository variable DEPLOY_PAGES is "true" (Settings › Secrets and variables ›
+  # Actions › Variables), so nothing goes on a Pages site before its visibility is set
+  deploy:
+    needs: build
+    if: ${{ vars.DEPLOY_PAGES == 'true' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

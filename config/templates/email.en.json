@@ -1,0 +1,144 @@
+{
+  "_about": [
+    "Texts of the email for the customer (Email screen of the Testing Portal). English only.",
+    "HOW TO EDIT SAFELY. Change only the words between the double quotes. Keep the quotes, the commas between the lines and the brackets [ ] { } exactly as they are. Inside a text, do not type a double quote (\"); use single quotes ('...') or typographic quotes (“...”) instead. Keys that start with _ are notes like this one; the tool ignores them.",
+    "AFTER AN EDIT. On the web server: reload the page. For the offline file: run node tools/build.js, which also checks this file and stops with a message if something is wrong. The Email screen lists any problem it finds in this file at the top.",
+    "HOW THE EMAIL IS BUILT. greeting, then the paragraphs under 'text' of the case (see 'cases'), then notes.incomplete (when some checks could not run), then notes.passed (when the text says that the file or the corrected copy passed), then the signature. Paragraphs are separated by an empty line. The service desk can still change everything on the screen before sending.",
+    "WHICH CASE. unreadable: the file could not be read (stage 0 stopped). unsupported: the file is not a pain.001 message the tool can check (stage 1 stopped). fixed: the service desk applied changes ('Fix the errors' or 'Fix the warnings') and the email goes with the corrected copy. rejected: errors, no changes. warnings: only warnings, no changes. passed: no errors and no warnings, no changes.",
+    "PLACEHOLDERS. A word in curly brackets is filled in by the tool. Write it exactly, with the same capital letters. In every case: {file} name of the file the customer sent, {country} the country it was tested for, {formats} the pain.001 versions accepted for that country. In unreadable and unsupported: {stopTitle} what stopped the test, {stopDetail} the details with the line (see 'stopDetail'), {stopHint} what the customer can do. In rejected, warnings, passed and fixed: {errors}, {warnings}, {hints} the number of each in the file the customer sent, written with its word (see 'counts'), {found} errors and warnings together (see 'found'). Only in fixed: {correctedFile} name of the corrected copy, {errorsLeft} and {warningsLeft} what is left in the corrected copy, {sampleValues} the number of sample values in it, {result} the sentence under 'result' for the result of the file the customer sent, {copyResult} the sentence under 'copyResult' for the result of the corrected copy.",
+    "LISTS. {findings} the errors and warnings found (in passed: the hints), {changes} the changes in the corrected copy (without sample values), {samples} the sample values the customer's system must replace with real data, {open} the errors and warnings left in the corrected copy (only in fixed: changes, samples, open). Put a list at the end of a paragraph, after a colon: the list follows on the next lines, one line per item, written as under 'lists'. When a list is empty, its whole paragraph is left out. After 'lists.max' lines the rest is counted in one line ('lists.more'). Lists never show amounts, names or account numbers: only check titles, field names, places (block and transaction numbers, EndToEndIds) and sample values."
+  ],
+
+  "greeting": "Dear Customer,",
+  "signature": ["Kind regards", "Payments Service Desk"],
+
+  "cases": {
+    "unreadable": {
+      "_when": "The file could not be read (stage 0 stopped), so no payment check ran.",
+      "subject": "Test of your payment file {file}: the file could not be read",
+      "text": [
+        "We tested your payment file {file} for {country}. We could not read the file, so the payment checks could not run.",
+        "Reason: {stopTitle}. {stopDetail}",
+        "{stopHint} When you have a new file, please send it to us and we will test it again. The attached report has the details."
+      ]
+    },
+    "unsupported": {
+      "_when": "The file was read, but it is not a pain.001 message the tool can check (stage 1 stopped).",
+      "subject": "Test of your payment file {file}: format not supported",
+      "text": [
+        "We tested your file {file} for {country}. The file is not a payment file that we can test, so the payment checks could not run.",
+        "Reason: {stopTitle}. {stopDetail}",
+        "For {country} we test credit transfer files in the format {formats}. Please send us your payments in this format and we will test the file again. The attached report has the details."
+      ]
+    },
+    "rejected": {
+      "_when": "The file has errors and no changes were applied.",
+      "subject": "Test of your payment file {file}: rejected ({errors})",
+      "text": [
+        "We tested your payment file {file} for {country}. CMIplus would reject the file as it stands: we found {found}.",
+        "The attached report lists every finding with its place in the file and how to fix it. In short: {findings}",
+        "Please correct the system that generates your payment files. When it produces a corrected file, please send it to us and we will test it again."
+      ]
+    },
+    "fixed": {
+      "_when": "The service desk applied changes. {result} and {copyResult} pick a sentence below by the result: RJCT rejected, ACWC passed with warnings, ACTC passed.",
+      "subject": "Test of your payment file {file}: {found}, corrected copy for reference",
+      "result": {
+        "RJCT": "CMIplus would reject the file as it stands: we found {found}.",
+        "ACWC": "CMIplus would accept the file, but we found {warnings} that should be corrected.",
+        "ACTC": "The file passes the technical check (ACTC)."
+      },
+      "copyResult": {
+        "ACTC": "It passes the technical check (ACTC).",
+        "ACWC": "It passes the technical check with {warningsLeft} (ACWC).",
+        "RJCT": "It still has {errorsLeft}, so CMIplus would still reject it."
+      },
+      "text": [
+        "We tested your payment file {file} for {country}. {result} The attached report lists every finding with its place in the file and how to fix it.",
+        "We also attach a corrected copy of the file, {correctedFile}. {copyResult} Please use it as a reference only, not for payments.",
+        "In the corrected copy we changed: {changes}",
+        "These findings are not corrected in the copy. Please correct them in your system: {open}",
+        "The corrected copy contains {sampleValues} where data was missing. Your files must contain real data in these places: {samples}",
+        "To stop the same findings coming back, please change the system that generates your payment files. When your system produces a corrected file, please send it to us for the end-to-end test."
+      ]
+    },
+    "warnings": {
+      "_when": "The file has warnings but no errors, and no changes were applied.",
+      "subject": "Test of your payment file {file}: passed with {warnings}",
+      "text": [
+        "We tested your payment file {file} for {country}. The file passes the technical check with {warnings} (ACWC). CMIplus would accept it, but please review: {findings}",
+        "The attached report lists every finding with its place in the file and how to fix it. Where needed, please change the system that generates your payment files."
+      ]
+    },
+    "passed": {
+      "_when": "No errors and no warnings, and no changes were applied.",
+      "subject": "Test of your payment file {file}: passed",
+      "text": [
+        "We tested your payment file {file} for {country}. The file passes the technical check (ACTC): we found no errors or warnings.",
+        "The report also lists {hints}. Hints are suggestions and do not affect acceptance: {findings}",
+        "The attached report has the details."
+      ]
+    }
+  },
+
+  "notes": {
+    "passed": "Please note: a passed technical check does not guarantee that the payments will be executed. Account status, available funds, entitlements and sanctions are not checked.",
+    "incomplete": "Please note: some of our checks could not run during this test, so the result is not complete."
+  },
+
+  "found": {
+    "_about": "{found}: the errors and warnings of the file the customer sent, in one phrase.",
+    "errorsAndWarnings": "{errors} and {warnings}",
+    "errorsOnly": "{errors}",
+    "warningsOnly": "{warnings}",
+    "none": "no errors or warnings"
+  },
+
+  "counts": {
+    "_about": "How a number is written with its word: \"0\" for none, \"1\" for one, \"n\" for more than one, where {n} is the number.",
+    "errors": { "0": "no errors", "1": "1 error", "n": "{n} errors" },
+    "warnings": { "0": "no warnings", "1": "1 warning", "n": "{n} warnings" },
+    "hints": { "0": "no hints", "1": "1 hint", "n": "{n} hints" },
+    "sampleValues": { "0": "no sample values", "1": "1 sample value", "n": "{n} sample values" },
+    "transactions": { "1": "1 transaction", "n": "{n} transactions" },
+    "blocks": { "1": "1 payment block", "n": "{n} payment blocks" },
+    "places": { "1": "1 place", "n": "{n} places" }
+  },
+
+  "lists": {
+    "_about": "One line per item. finding: {title} of the check and {where}; findingWithElement: the same for schema findings, with the {element} name; change: the {field} that was changed and {where}; changeInFile: a change of the whole file; sample: {field}, {where} and the sample {value}; more: the line after 'max' lines, with the number of the {more} items not shown; untitled: the title of a check without a title in the catalogue ({rule} is its number).",
+    "max": 10,
+    "finding": "- {title} ({where})",
+    "findingWithElement": "- {title}, element {element} ({where})",
+    "change": "- {field} ({where})",
+    "changeInFile": "- {field}",
+    "sample": "- {field}, {where}: {value}",
+    "more": "and {more} more, listed in the report",
+    "untitled": "Finding of check {rule}"
+  },
+
+  "where": {
+    "_about": "How a place is written in the lists. {block} and {tx} are numbers, counting from 1 in the order of the file; {e2e} is the EndToEndId. {transactions}, {blocks} and {places} are counted (see 'counts').",
+    "file": "file",
+    "header": "group header",
+    "block": "payment block {block}",
+    "tx": "payment block {block}, transaction {tx}",
+    "txWithId": "payment block {block}, transaction {tx}, EndToEndId {e2e}",
+    "transactions": "{transactions}",
+    "transactionsInBlock": "{transactions} in payment block {block}",
+    "blocks": "{blocks}",
+    "places": "{places}"
+  },
+
+  "stopDetail": {
+    "_about": "{stopDetail} in unreadable and unsupported: the {message} of the finding that stopped the test, with its {line} when the file has one.",
+    "withLine": "At line {line}: {message}",
+    "withoutLine": "{message}"
+  },
+
+  "words": {
+    "_about": "Words between the items of a short list, for example the accepted formats.",
+    "or": "or",
+    "and": "and"
+  }
+}

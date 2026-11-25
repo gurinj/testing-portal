@@ -1,0 +1,19 @@
+# What the Testing Portal does not do
+
+**State:** M3, all checks of the validation catalogue that are possible in the browser; fix the errors, runs and comparison, email for the customer. Generic ISO and catalogue rules only: the country specifications come as later updates.
+
+- The rules come from the validation catalogue (confirmed 2026-11-18); severities, reason codes and the CMIplus guideline values in `config/settings.json` are proposals until confirmed against CMIplus and the bank's test files (M2.1).
+- The country rule packs (`rules/countries/<CC>.sch`) are empty: country specifics are in the country files (currency, SEPA, character set, holidays, cut-off, payment types, domestic codes), most of them still empty. `.03` and `.09` are accepted for all 11 countries until confirmed.
+- Not possible in the browser or not defined yet: 0.4 malware scan, 0.6 XML declaration and byte-order mark as CMIplus expects, 0.10 envelope or application header, 1.5 namespace prefixes and schemaLocation, 1.6 retiring versions, 5.9 BIC directory (BIC format and country only), 9.9 MsgId used before (no history).
+- 6.7, 7.7, 10.4 and 10.5 have no rule of their own: other checks cover them (About lists which). 7.14 cannot fire with the payment-type rules (a creditor IBAN of another country makes a payment cross-border). 10.9 does not check the file size (the CMIplus limit is not known).
+- ACTC does not mean that CMIplus will process the file. No checks against bank systems: no account, funds, entitlement or sanctions checks.
+- No login in the offline file: anyone who has the file can use it. No audit trail, no statistics, nothing is stored or sent. Settings loaded on the About page last until the page is reloaded.
+- Files up to 20 MB (browser memory). Speed in Chrome (headless, offline file, technical check): 1,000 transactions 0.6 s, 5,000 2.9 s, 10,000 5.6 s.
+- After a structural XSD error the XSD worker changes the parsed file and checks it again, up to 8 times, so later errors are still found. A file with very many different structural errors in one element may still hide some of them until the first ones are fixed. The XSD check stops after 5,000 errors.
+- A file without line breaks is shown on one line in the XML viewer (long lines are cut there); line and column of the findings stay correct.
+- **Fix the errors** proposes only what `config/fixes.json` lists. Structural XSD errors, amounts, and wrong IBANs or BICs are never guessed: IBAN and BIC get an empty field with a check. Changes to the payment (execution date, charge bearer, shortened names, new ids), sample values and choices are proposed but not ticked. Two changes of the same text: the first is made, the other is listed as not made.
+- The corrected file is a **reference copy**, not for payments. It is UTF-8 (only UTF-8 files get this far) and keeps the byte-order mark; only the changed values differ. Sample values must be replaced by real data.
+- **Runs** last until the page is reloaded. Only the last 3 runs keep their full result and text (the corrected file of an older run cannot be downloaded any more); older runs keep their counts and can still be compared.
+- **Comparison:** payments are matched by PmtInfId and EndToEndId. Where an EndToEndId repeats in a file (or is NOTPROVIDED), the copies are told apart by their order, so a payment inserted in front of them makes their findings show as resolved and new.
+- **Chains:** a new upload continues a file's runs only with the same country, the same file name (without _v2, _corrected …) and, where both files say it, the same debtor account or initiating party. A renamed new version starts its own chain.
+- **Email:** nothing is sent. "Open in email app" cannot add attachments, and some email programs cut texts longer than about 2,000 characters (Copy is the safer way). English only.

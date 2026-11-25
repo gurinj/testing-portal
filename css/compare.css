@@ -1,0 +1,76 @@
+/*
+ * Testing Portal – run comparison (M3): the runs strip of the report and the
+ * comparison screen (#compare). The strip follows prototype v2. Colours and
+ * fonts come from base.css; finding lists reuse .finds / .find / .fhead of app.css.
+ */
+
+/* runs strip on the report */
+.runs { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; margin-top: 20px; padding: 14px 20px; border: 2px solid var(--g2); border-radius: 18px; }
+.runstep { display: inline-flex; align-items: center; gap: 9px; }
+.runstep small { font-size: 15px; color: var(--g5); font-weight: 650; }
+.runstep.cur small { color: var(--ink); }
+.runarrow, .rungap { color: var(--g4); }
+.rungap { font-weight: 800; }
+.runs .res { margin-left: auto; font-weight: 750; color: var(--g5); }
+.runs .res.ok { color: var(--green); }
+.runs .res.mid { color: var(--amber); }
+.runs .nw-new { color: var(--red-dark); }
+.runs.one .muted { margin-left: auto; }
+.runs details { flex-basis: 100%; }
+.runs summary::-webkit-details-marker { display: none; }
+.reslist { margin: 6px 0 4px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 24px; }
+.reslist li { display: flex; align-items: center; gap: 8px; font-size: 16px; }
+.reslist small { margin-left: auto; color: var(--g5); font-size: 14px; white-space: nowrap; }
+.reslist .sev.sm { width: 22px; height: 22px; }
+
+/* comparison screen */
+.cmp .lead { margin-bottom: 4px; }
+.cmp-pick { display: flex; align-items: center; gap: 10px 12px; flex-wrap: wrap; margin-top: 22px; }
+.cmp-sel { display: flex; align-items: center; gap: 10px; flex: 1 1 300px; }
+.cmp-sel label { font-weight: 700; min-width: 40px; }
+.cmp-sel select.inp { flex: 1; min-width: 0; }
+.cmp-runs { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 14px; align-items: center; margin-top: 18px; }
+.cmp-run { border: 2px solid var(--g2); border-radius: 18px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px; }
+.cmp-run-h { display: flex; align-items: center; gap: 10px; }
+.cmp-run-h small { font-size: 14.5px; font-weight: 650; color: var(--g5); }
+.cmp-run-h b { font-size: 20px; font-weight: 750; }
+.cmp-file { font-size: 15px; }
+.cmp-run .muted { font-size: 15px; }
+.cmp-cnt { font-weight: 650; font-variant-numeric: tabular-nums; }
+.cmp-arrow { color: var(--g4); }
+.cmp-notes { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.cmp-notes p { display: flex; gap: 10px; align-items: flex-start; padding: 10px 16px; border-radius: 12px; background: var(--yellow-pale); border: 2px solid var(--yellow-deep); }
+.cmp-notes .ic { margin-top: 2px; }
+.cmp-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.cmp-tile { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 14px 20px; border-radius: 18px; border: 2px solid var(--g2); }
+.cmp-tile span { font-weight: 700; }
+.cmp-tile b { font-size: 34px; line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cmp-tile small { font-size: 15px; color: var(--ink-2); }
+.cmp-tile.res { background: var(--green-soft); border-color: var(--green-2); color: var(--green); }
+.cmp-tile.open { background: var(--amber-soft); border-color: var(--amber-line); color: var(--amber); }
+.cmp-tile.new { background: var(--red-soft); border-color: #F0B6AF; color: var(--red-dark); }
+.cmp-tile:not(:disabled):hover { border-color: var(--ink); }
+.cmp-tile:disabled { cursor: default; background: var(--g1); border-color: var(--g2); color: var(--g5); }
+.cmp-sec { scroll-margin-top: 20px; }
+.cmp-sec .sec-h { display: flex; align-items: center; gap: 12px; }
+.cmp-sec > .muted { margin-top: 2px; }
+.cmp-n { display: inline-grid; place-items: center; min-width: 40px; height: 30px; padding: 0 12px; border-radius: 15px; font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; background: var(--g1); color: var(--ink-2); border: 1.5px solid var(--g3); }
+.cmp-sec.res .cmp-n { background: var(--green-soft); color: var(--green); border-color: var(--green-2); }
+.cmp-sec.open .cmp-n { background: var(--amber-soft); color: var(--amber); border-color: var(--amber-line); }
+.cmp-sec.new .cmp-n { background: var(--red-soft); color: var(--red-dark); border-color: #F0B6AF; }
+.cmp-sec .finds { margin-top: 10px; }
+.cmp-sec .fbody { padding-top: 0; }
+.cmp-sec .locs { margin-top: 0; }
+.cmp-sec .locs.all { max-height: 420px; }
+.cmp-sec .locs small { font-size: 14px; }
+
+@media (max-width: 1020px) {
+  .cmp-runs { grid-template-columns: minmax(0, 1fr); }
+  .cmp-arrow { transform: rotate(90deg); justify-self: center; }
+  .reslist { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 620px) {
+  .cmp-tiles { grid-template-columns: minmax(0, 1fr); }
+  .runs .res, .runs.one .muted { margin-left: 0; flex-basis: 100%; }
+  .cmp-sel { flex-basis: 100%; }
+}

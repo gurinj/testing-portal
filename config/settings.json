@@ -1,0 +1,75 @@
+{
+  "_about": "Settings of the rules. Change a value, then run `node tools/build.js` for a new offline file. A country file (config/countries/<CC>.json) can override any value under \"settings\". Durations are ISO 8601 (P1M = one calendar month, P30D, PT1H); amounts are strings; null switches a check off. See docs/RULES.md, section Settings.",
+
+  "checks": {
+    "_about": "Per check id (or id-part, e.g. 4.2-age): enabled (true/false), severity (E, W, I), code (ISO reason code). Only list what differs from the rule. Stages 0 and 1 stop the run and cannot be changed here.",
+    "4.2-age": { "severity": "W", "_why": "Decided 2026-11-18: a file older than the maximum age is a warning." },
+    "7.13": { "severity": "W", "_why": "Review 2026-11-19: a payment between two accounts of one country in a foreign currency (for example USD in CZ) may be allowed; a warning until confirmed with the bank's files." },
+    "4.30-lines": { "enabled": false, "_why": "Merge 2026-11-18: 6.3 limits the address lines of every address (guideline.maxOccurs PstlAdr/AdrLine), so the same problem is not reported twice." }
+  },
+
+  "limits": {
+    "creationDateFutureTolerance": "PT1H",
+    "creationDateMaxAge": "P1M",
+    "executionDateMaxAhead": "P1Y",
+    "maxBlocksPerFile": null,
+    "maxTransactionsPerFile": null,
+    "maxTransactionsPerBlock": null,
+    "sepaMinAmount": "0.01",
+    "sepaMaxAmount": "999999999.99",
+    "instantMaxAmount": null
+  },
+
+  "paymentTypes": {
+    "_about": "Codes used to derive the payment type of a transaction (docs/specs/M2.md, section 2).",
+    "instantLocalInstrument": ["INST"],
+    "urgentServiceLevel": ["URGP", "SDVA"],
+    "budgetCategoryPurpose": ["TAXS", "GOVT", "VATX", "WHLD", "SSBE"]
+  },
+
+  "charsets": {
+    "_about": "Allowed characters as a regular expression character class. 5.1 uses sepa for SEPA payments, swiftX for cross-border, the country's characterSet for the others.",
+    "sepa": "A-Za-z0-9/\\-?:().,'+ ",
+    "swiftX": "A-Za-z0-9/\\-?:().,'+ ",
+    "basic-latin": "\\x20-\\x7E"
+  },
+
+  "guideline": {
+    "_about": "CMIplus usage guideline (stage 6) and other bank-specific choices. The values are assumptions until confirmed against CMIplus.",
+    "mandatory": { "file": [], "block": [], "transaction": [] },
+    "forbidden": { "file": [], "block": [], "transaction": [] },
+    "ignored": { "file": [], "block": [], "transaction": [] },
+    "maxOccurs": { "PstlAdr/AdrLine": 2, "_note": "RmtInf/Ustrd is limited by remittance.maxUstrd (4.38)." },
+    "maxLength": { "Nm": 70, "_note": "RmtInf/Ustrd: 140 is the XSD limit already." },
+    "codes": { "purpose": null, "categoryPurpose": null, "serviceLevel": null, "localInstrument": null },
+    "localInstrumentProprietary": [],
+    "initiatingPartyIdPattern": null,
+    "batchBooking": { "allowed": true, "singleCurrencyPerBlock": true },
+    "multipleDebtorAccounts": true,
+    "multipleDebtorAgents": true,
+    "ultimateParties": true,
+    "executionDateTime": false,
+    "equivalentAmount": true,
+    "remittance": { "combined": false, "maxUstrd": 1, "maxStrd": 1 },
+    "instructionCodes": ["CHQB", "HOLD", "PHOB", "TELB"],
+    "regulatoryReporting": true,
+    "onePaymentTypePerBlock": true,
+    "oneCountryPerFile": true,
+    "unstructuredAddress": true,
+    "scheduledInstant": false
+  },
+
+  "crossBorder": {
+    "purposeRequiredFor": [],
+    "retiredCurrencies": ["BGN", "HRK", "LTL", "LVL", "EEK", "SKK", "SIT", "CYP", "MTL"],
+    "truncateLength": { "Nm": 35, "AdrLine": 35 }
+  },
+
+  "hints": {
+    "_about": "Stage 10. truncateLength: { \"path\": length } of texts CMIplus shortens (10.3, paths as in guideline.maxLength). recommend: the parts of 10.6. nearLimitShare: 10.9 from this share of a limit. version03: 10.8 on .03 files (only where the country also accepts .09).",
+    "truncateLength": {},
+    "recommend": { "address": true, "purpose": false, "lei": false, "ultimate": true },
+    "nearLimitShare": 0.9,
+    "version03": true
+  }
+}

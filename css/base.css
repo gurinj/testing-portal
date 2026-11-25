@@ -1,0 +1,81 @@
+/*
+ * Testing Portal – design tokens: colours, fonts, base elements.
+ * Same design as prototype v2 and the presentation. A later move to the
+ * Freya design changes this file.
+ */
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("../fonts/figtree-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("../fonts/figtree-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --yellow: #FEE600; --yellow-soft: #FFF5A8; --yellow-pale: #FFFBE0; --yellow-deep: #E2C800;
+  --ink: #1E1E1C; --ink-2: #4A4743;
+  --g1: #F6F4F0; --g2: #ECE8E1; --g3: #D7D0C5; --g4: #A79F93; --g5: #6F685F;
+  --green: #1D5F47; --green-2: #2F8A65; --green-soft: #DDEFE5;
+  --red: #D2463C; --red-dark: #9E2C24; --red-soft: #FBE4E1;
+  --amber: #7C5000; --amber-2: #A86E00; --amber-soft: #FDF0D5; --amber-line: #EFCF8C;
+  --font: "Amalia", "Amalia Pro", "RBI Amalia", "Figtree", system-ui, "Segoe UI", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; min-width: 0; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #fff; color: var(--ink);
+  font: 400 17px/1.45 var(--font);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+h1, h2, h3, p, dl, dd, ol, ul, pre { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+h1 { font-size: 40px; line-height: 1.1; font-weight: 750; letter-spacing: -.015em; outline: 0; text-wrap: balance; }
+h2 { font-size: 21px; font-weight: 700; }
+button, select, input, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+.muted { color: var(--g5); }
+.code { font-family: var(--mono); font-size: .86em; overflow-wrap: anywhere; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.nw { white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 6px 22px; border-radius: 24px; font-weight: 700; white-space: nowrap; transition: background .15s, border-color .15s; }
+.btn.pri { background: var(--yellow); }
+.btn.pri:hover { background: var(--yellow-deep); }
+.btn.sec { border: 2px solid var(--ink); background: #fff; }
+.btn.sec:hover { background: var(--g1); }
+.btn:disabled { background: var(--g2); border-color: var(--g2); color: var(--g5); cursor: not-allowed; }
+.btn.sm { min-height: 40px; padding: 4px 16px; border-radius: 20px; font-size: 16px; gap: 8px; }
+.link { font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+
+/* status pills */
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 800; letter-spacing: .03em; padding: 2px 12px; border-radius: 13px; white-space: nowrap; }
+.st.good { background: var(--green-2); color: #fff; }
+.st.mid { background: var(--amber-2); color: #fff; }
+.st.bad { background: var(--red); color: #fff; }
+.st.idle { background: var(--g1); color: var(--g5); border: 1.5px solid var(--g3); letter-spacing: 0; font-weight: 700; }
+.st.busy { background: var(--yellow-pale); color: var(--ink); border: 1.5px solid var(--yellow-deep); letter-spacing: 0; font-weight: 700; }
+
+/* severity dots */
+.sev { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; flex: none; font-size: 13px; font-weight: 800; }
+.sev.E { background: var(--red); color: #fff; }
+.sev.W { background: var(--amber-soft); color: var(--amber); border: 1.5px solid var(--amber-line); }
+.sev.I { background: var(--g1); color: var(--ink-2); border: 1.5px solid var(--g3); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

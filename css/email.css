@@ -1,0 +1,45 @@
+/* Testing Portal – Email screen (#email, M3). Uses the tokens of base.css and the classes of layout.css and app.css. */
+.email .embase { margin-top: 12px; color: var(--g5); font-size: 15.5px; }
+.email .embase .code { color: var(--ink-2); }
+.emgrid { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 24px; margin-top: 22px; align-items: start; }
+.emlab { display: block; font-weight: 700; margin: 0 0 6px; }
+.emform .emlab:first-child { margin-top: 0; }
+.emform .inp { height: 46px; padding: 0 12px; }
+.emform .inp:focus-visible, .emmanual .inp:focus-visible { outline-offset: 0; border-color: var(--ink); border-radius: 10px; }
+.email .panel .help { margin: 6px 0 0; font-size: 15px; }
+.emrow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 20px 0 6px; }
+.emrow .emlab { margin: 0; }
+.emrow .link { font-size: 15px; }
+.emform .embody { display: block; height: auto; min-height: 460px; padding: 12px 14px; font: 16px/1.5 var(--font); resize: vertical; white-space: pre-wrap; overflow-wrap: anywhere; }
+.emreset { margin-top: 10px; font-size: 15px; color: var(--ink-2); min-height: 22px; }
+
+.emside { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 16px; }
+.emside h2 { margin-bottom: 12px; }
+.emside .btn:not(.sm) { width: 100%; }
+.emside .btn + .btn { margin-top: 10px; }
+.emside a.btn { color: inherit; text-decoration: none; }
+.emside .panel .help { margin-top: 10px; }
+.emwarn { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: var(--amber-soft); border: 2px solid var(--amber-line); color: var(--amber); font-size: 15px; font-weight: 600; }
+.emwarn .ic { margin-top: 2px; }
+.emmanual { margin-top: 14px; padding-top: 12px; border-top: 2px solid var(--g2); font-size: 15px; }
+.emmanual .inp { display: block; height: auto; min-height: 150px; margin: 8px 0; padding: 10px 12px; font: 13.5px/1.5 var(--mono); resize: vertical; background: var(--g1); }
+
+.emfiles li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 6px 10px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--g2); }
+.emfiles li > .btn { grid-column: 2; justify-self: start; }  /* below the name: the side panel is narrow and file names are long */
+.emfiles li:first-child { padding-top: 0; }
+.emfiles b { display: block; font-size: 14.5px; overflow-wrap: anywhere; }
+.emfiles span { display: block; font-size: 14.5px; color: var(--g5); }
+
+.emnote { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; padding: 14px 20px; border-radius: 14px; background: var(--amber-soft); border: 2px solid var(--amber-line); color: var(--amber); }
+.emnote .ic { margin-top: 1px; }
+.emnote p, .emnote ul { color: var(--ink); margin-top: 2px; }
+.emnote ul { list-style: disc; padding-left: 20px; font-size: 15px; }
+.emnote.bad { background: var(--red-soft); border-color: #F0B6AF; color: var(--red-dark); }
+
+@media (max-width: 1020px) {
+  .emgrid { grid-template-columns: minmax(0, 1fr); }
+  .emside { position: static; }
+}
+@media (max-width: 620px) {
+  .emform .embody { min-height: 360px; }
+}

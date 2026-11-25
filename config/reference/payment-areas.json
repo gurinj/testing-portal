@@ -1,0 +1,18 @@
+{
+  "sepaCountries": {
+    "source": "EPC409-09 EPC List of Countries in the SEPA Schemes' Geographical Scope, version 8.0, 24 December 2025 (41 countries), plus territories that are part of a listed country (Åland, French overseas departments and collectivities in SEPA) and the Crown Dependencies listed with the United Kingdom",
+    "codes": ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+              "IS", "LI", "NO",
+              "AL", "AD", "MD", "MC", "ME", "MK", "SM", "RS", "CH", "GB", "VA",
+              "GI", "GG", "JE", "IM",
+              "AX", "GF", "GP", "MQ", "YT", "RE", "PM", "BL", "MF"]
+  },
+  "eeaCountries": {
+    "source": "European Economic Area: the 27 EU member states, Iceland, Liechtenstein and Norway Plus territories that are part of an EEA country (Åland; the French outermost regions GF, GP, MQ, RE, YT and Saint-Martin), added 2026-11-18.",
+    "codes": ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "IS", "LI", "NO", "AX", "GF", "GP", "MQ", "RE", "YT", "MF"]
+  },
+  "eeaCurrencies": {
+    "source": "Official currencies of EEA countries (EUR, and the national currencies of EEA countries outside the euro area; CHF as the currency of Liechtenstein)",
+    "codes": ["EUR", "CZK", "DKK", "HUF", "PLN", "RON", "SEK", "ISK", "NOK", "CHF"]
+  }
+}

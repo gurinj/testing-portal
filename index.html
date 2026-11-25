@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testing Portal</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/technical-check.css">
+<link rel="stylesheet" href="css/fix.css">
+<link rel="stylesheet" href="css/compare.css">
+<link rel="stylesheet" href="css/email.css">
+</head>
+<body>
+<header id="apphead">
+  <a class="brand" href="#" data-act="again" aria-label="Testing Portal, start"><span class="mark" aria-hidden="true"></span><b>Testing Portal</b></a>
+  <span class="toolline" id="toolline">Temporary tool</span>
+  <nav aria-label="Main"><a href="#" data-act="again" data-nav="start">Validate</a><a href="#about" data-nav="about">About</a></nav>
+</header>
+<main id="app"><section class="wrap"><h1 tabindex="-1">Validate a payment file</h1><p class="boot">Starting…</p></section></main>
+<noscript><p class="wrap">The Testing Portal needs JavaScript.</p></noscript>
+
+<script src="js/platform.js"></script>
+<script src="js/dev/test-file-generator.js"></script>
+<script src="js/validation/worker-client.js"></script>
+<script src="js/validation/functions/settings.js"></script>
+<script src="js/validation/functions/payment-type.js"></script>
+<script src="js/validation/functions/iban.js"></script>
+<script src="js/validation/functions/charset.js"></script>
+<script src="js/validation/functions/dates.js"></script>
+<script src="js/validation/findings/place.js"></script>
+<script src="js/validation/findings/status.js"></script>
+<script src="js/validation/findings/report.js"></script>
+<script src="js/compare/compare.js"></script>
+<script src="js/validation/stages/stage0-intake.js"></script>
+<script src="js/validation/stages/stage1-identify.js"></script>
+<script src="js/validation/stages/stage2-xsd.js"></script>
+<script src="js/validation/stages/stage-rules.js"></script>
+<script src="js/validation/pipeline.js"></script>
+<script src="js/ui/common.js"></script>
+<script src="js/ui/start.js"></script>
+<script src="js/ui/run.js"></script>
+<script src="js/ui/report.js"></script>
+<script src="js/ui/xml-viewer.js"></script>
+<script src="js/ui/exports.js"></script>
+<script src="js/email/build.js"></script>
+<script src="js/ui/about.js"></script>
+<script src="js/ui/technical-check.js"></script>
+<script src="lib/saxes/saxes.bundle.js"></script>
+<script src="js/fix/locate.js"></script>
+<script src="js/fix/edit.js"></script>
+<script src="js/fix/checks.js"></script>
+<script src="js/fix/propose.js"></script>
+<script src="js/fix/session.js"></script>
+<script src="js/fix/actions/generic.js"></script>
+<script src="js/fix/actions/helpers.js"></script>
+<script src="js/fix/actions/sums.js"></script>
+<script src="js/fix/actions/text.js"></script>
+<script src="js/fix/actions/formats.js"></script>
+<script src="js/fix/actions/dates.js"></script>
+<script src="js/fix/actions/ids.js"></script>
+<script src="js/fix/actions/elements.js"></script>
+<script src="js/ui/fix.js"></script>
+<script src="js/ui/compare.js"></script>
+<script src="js/ui/email.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

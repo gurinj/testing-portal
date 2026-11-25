@@ -1,0 +1,25 @@
+{
+  "name": "Testing Portal",
+  "version": "0.4.0-m3",
+  "milestone": "M3 fix the errors, runs and comparison, email",
+  "rulesDate": "2026-11-18",
+  "rulesStatus": "draft",
+  "maxFileMB": 20,
+  "speedTarget": {
+    "transactions": 5000,
+    "seconds": 30
+  },
+  "countries": [
+    "AT",
+    "CZ",
+    "HU",
+    "RO",
+    "SK",
+    "HR",
+    "RS",
+    "BA",
+    "UA",
+    "AL",
+    "XK"
+  ]
+}
