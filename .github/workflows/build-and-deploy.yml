@@ -27,7 +27,7 @@ jobs:
           name: testing-portal-offline
           path: dist/testing-portal.html
           retention-days: 30
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist/site
   # publishes only when the repository variable DEPLOY_PAGES is "true" (Settings › Secrets and variables ›
