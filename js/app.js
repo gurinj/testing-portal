@@ -3,6 +3,7 @@
  *
  * Screens (address after #):  start (none) · run · report (#report)
  *                              · XML viewer (#xml) · About (#about) · technical check (#check)
+ *                              · Catalogue (#catalogue, js/ui/catalogue.js, a screen of TP.ui.screens)
  * Each screen is a file in js/ui/ with render(state) and, if needed, mount(state).
  * All clicks go through one listener and the data-act attribute of the element.
  */

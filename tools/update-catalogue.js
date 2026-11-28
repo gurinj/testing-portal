@@ -1,0 +1,144 @@
+#!/usr/bin/env node
+/*
+ * Testing Portal – the Catalogue screen's data from the validation catalogue.
+ *
+ *   node tools/update-catalogue.js            docs/reference/validation-catalogue.md → config/catalogue-doc.json
+ *   node tools/update-catalogue.js <file.md>  another Markdown export of the catalogue document
+ *   node tools/update-catalogue.js --check    exit 1 if config/catalogue-doc.json is not the current conversion
+ *
+ * The catalogue document is the original: export it as Markdown (the document's
+ * Export menu), save it as docs/reference/validation-catalogue.md and run this
+ * script. Never edit config/catalogue-doc.json by hand. The tests check that the
+ * file is the conversion of the Markdown and that its checks are the checks of
+ * config/catalogue.json (tests/features/catalogue.test.js).
+ *
+ * Text keeps the document's inline Markdown (links, `code`, **bold**); the screen
+ * turns it into HTML (js/ui/catalogue.js).
+ */
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const ROOT = path.resolve(__dirname, '..');
+const SOURCE = 'docs/reference/validation-catalogue.md';
+const OUT = 'config/catalogue-doc.json';
+
+const MONTHS = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+const SECTION_IDS = [
+  [/^Validation flow/, 'flow'], [/^Decisions after confirmation/, 'decisions'], [/^Result report/, 'report'],
+  [/^Out of scope/, 'scope'], [/^Open points/, 'open'], [/^Sources/, 'sources']
+];
+// "In the app" column → status of the check (the filter chips of the screen)
+const STATUS = [
+  [/^Yes\b/, 'yes'], [/^Off\b/, 'off'], [/^Built, but cannot fire\b/, 'silent'], [/^Covered by\b/, 'covered'], [/^Not built\b/, 'notbuilt']
+];
+const BUILT = /^(JavaScript|XML parser \(libxml2\)|XSD \(libxml2\)|Schematron|Schematron \+ JS: .+|–)$/;
+
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const cells = line => line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+
+function convert(md) {
+  const lines = md.replace(/\r\n?/g, '\n').split('\n');
+  let i = 0;
+  const next = () => lines[i++];
+  const skipBlank = () => { while (i < lines.length && !lines[i].trim()) i++; };
+
+  skipBlank();
+  const title = (/^# (.+)$/.exec(next()) || [])[1];
+  if (!title) throw new Error('line 1: the title (# …) is missing');
+  skipBlank();
+  const by = /^([A-Z][a-z]{2}) (\d{1,2}), (\d{4}) · @(.+)$/.exec(next() || '');
+  if (!by || !MONTHS[by[1]]) throw new Error('the byline (date · @owner) is missing under the title');
+  const date = `${by[3]}-${String(MONTHS[by[1]]).padStart(2, '0')}-${by[2].padStart(2, '0')}`;
+  skipBlank();
+  const lead = next().trim();
+
+  const sections = [];
+  let sec = null;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim()) { i++; continue; }
+    let m;
+    if ((m = /^## (.+)$/.exec(line))) {
+      i++;
+      const head = m[1].trim();
+      const st = /^Stage (\d+) – (.+?)(?: \((.+)\))?$/.exec(head);
+      sec = st
+        ? { id: `stage-${st[1]}`, stage: +st[1], title: st[2], note: st[3] || null, blocks: [] }
+        : { id: (SECTION_IDS.find(([re]) => re.test(head)) || [null, slug(head)])[1], title: head, blocks: [] };
+      sections.push(sec);
+      continue;
+    }
+    if (!sec) throw new Error(`line ${i + 1}: text before the first section`);
+    if ((m = /^### (.+)$/.exec(line))) { i++; sec.blocks.push({ h3: m[1].trim() }); continue; }
+    if (line.startsWith('|')) {
+      const rows = [];
+      while (i < lines.length && lines[i].startsWith('|')) rows.push(cells(next()));
+      if (rows.length < 2 || !rows[1].every(c => /^:?-{3,}:?$/.test(c))) throw new Error(`line ${i}: a table without its separator row`);
+      const head = rows[0], body = rows.slice(2);
+      for (const r of body) if (r.length !== head.length) throw new Error(`table "${head.join(' | ')}": a row has ${r.length} cells instead of ${head.length}`);
+      sec.blocks.push(head[0] === 'ID' && head[head.length - 1] === 'Built in' ? checkTable(head, body) : { table: { head, rows: body } });
+      continue;
+    }
+    if (/^- \[[ x]\] /.test(line)) {
+      const items = [];
+      while (i < lines.length && (m = /^- \[([ x])\] (.+)$/.exec(lines[i]))) { items.push({ done: m[1] === 'x', text: m[2].trim() }); i++; }
+      sec.blocks.push({ tasks: items });
+      continue;
+    }
+    if (/^- /.test(line)) {
+      const items = [];
+      while (i < lines.length && /^- /.test(lines[i])) items.push(next().slice(2).trim());
+      sec.blocks.push({ ul: items });
+      continue;
+    }
+    if (/^\d+\. /.test(line)) {
+      const items = [];
+      while (i < lines.length && /^\d+\. /.test(lines[i])) items.push(next().replace(/^\d+\. /, '').trim());
+      sec.blocks.push({ ol: items });
+      continue;
+    }
+    sec.blocks.push({ p: next().trim() });
+  }
+
+  return {
+    _about: `Generated by tools/update-catalogue.js from ${SOURCE}, the Markdown export of the catalogue document. Do not edit: change the document, export it again and run the script.`,
+    title, date, owner: by[4].trim(), lead, sections
+  };
+}
+
+function checkTable(head, body) {
+  const col = name => head.indexOf(name);
+  const [cId, cCheck, cSev, cCode, cApp, cBuilt] = [col('ID'), Math.max(col('Check'), col('Hint')), col('Sev'), col('Code'), col('In the app'), col('Built in')];
+  if ([cId, cCheck, cSev, cApp, cBuilt].some(c => c < 0)) throw new Error(`check table "${head.join(' | ')}": a column is missing`);
+  const rows = body.map(r => {
+    const app = r[cApp], built = r[cBuilt];
+    const status = (STATUS.find(([re]) => re.test(app)) || [])[1];
+    if (!status) throw new Error(`${r[cId]}: "In the app" does not start with Yes, Off, Built but cannot fire, Covered by or Not built: ${app}`);
+    if (!BUILT.test(built)) throw new Error(`${r[cId]}: unknown "Built in" value: ${built}`);
+    return { id: r[cId], check: r[cCheck], sev: r[cSev], code: cCode < 0 ? null : r[cCode], app, status, built };
+  });
+  return { checks: { label: head[cCheck], rows } };
+}
+
+/* every check row of the converted document, in document order */
+const checkRows = doc => doc.sections.flatMap(s => s.blocks.filter(b => b.checks).flatMap(b => b.checks.rows.map(r => ({ ...r, stage: s.stage }))));
+
+const text = doc => JSON.stringify(doc, null, 1) + '\n';
+
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  const check = args.includes('--check');
+  const src = path.resolve(ROOT, args.find(a => !a.startsWith('--')) || SOURCE);
+  const out = text(convert(fs.readFileSync(src, 'utf8')));
+  const dst = path.join(ROOT, OUT);
+  if (check) {
+    const same = fs.existsSync(dst) && fs.readFileSync(dst, 'utf8') === out;
+    console.log(same ? `${OUT} is up to date` : `${OUT} is not the conversion of ${path.relative(ROOT, src)}: run node tools/update-catalogue.js`);
+    process.exit(same ? 0 : 1);
+  }
+  fs.writeFileSync(dst, out);
+  const doc = JSON.parse(out);
+  console.log(`wrote ${OUT}: ${doc.sections.length} sections, ${checkRows(doc).length} checks`);
+}
+
+module.exports = { convert, checkRows, text, SOURCE, OUT };

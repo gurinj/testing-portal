@@ -226,8 +226,8 @@ details[open] > summary .ic { transform: rotate(180deg); }
 .about .panel ul { list-style: disc; padding-left: 22px; }
 .about .panel li + li { margin-top: 4px; }
 .about h2 { margin-bottom: 8px; }
+.about a.btn { color: inherit; text-decoration: none; }
 .notices { width: 100%; min-height: 260px; margin-top: 12px; padding: 14px 16px; border: 2px solid var(--g3); border-radius: 12px; font: 13px/1.5 var(--mono); background: var(--g1); resize: vertical; }
-.stagetbl td:first-child { white-space: nowrap; font-weight: 650; }
 
 @media (max-width: 1020px) {
   h1 { font-size: 32px; }

@@ -6,7 +6,10 @@ Needs Node.js 18 or newer. Nothing is downloaded: the build tools are in `tools/
 node tools/build.js             # compile rules, run tests, build dist/
 node tools/build.js --no-tests  # the same without the tests
 node tests/run-tests.js         # only the tests (needs a build first)
+node tools/update-catalogue.js  # Catalogue page: docs/reference/validation-catalogue.md → config/catalogue-doc.json
 ```
+
+**A new version of the catalogue document:** export it as Markdown (the document's Export menu), save it as `docs/reference/validation-catalogue.md`, run `node tools/update-catalogue.js`, then build. The tests fail if `config/catalogue-doc.json` is not the current conversion or if its checks differ from `config/catalogue.json`.
 
 Output:
 - `dist/site/` – the separate files, for GitHub Pages later or `python -m http.server`.

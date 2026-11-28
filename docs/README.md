@@ -2,7 +2,7 @@
 
 A static web app for the service desk that checks pain.001 payment files (ISO 2009 `.03` and ISO 2019 `.09`) and shows all findings at once. Everything runs in the browser: the payment file never leaves the computer.
 
-**Current milestone:** M3: fix the errors, runs and comparison, email for the customer (0.4.0-m3). See `docs/specs/M3.md`. Generic ISO and catalogue rules; the country specifications follow as updates.
+**Current milestone:** M3: fix the errors, runs and comparison, email for the customer (0.4.1-m3, with the Catalogue page). See `docs/specs/M3.md` and `docs/specs/M3-catalogue.md`. Generic ISO and catalogue rules; the country specifications follow as updates.
 
 ## Use it
 

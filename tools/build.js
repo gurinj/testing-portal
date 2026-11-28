@@ -199,6 +199,7 @@ function embeddedFiles(manifest) {
   const add = p => { files[p] = { enc: 'text', data: read(path.join(SITE, p)) }; };
   add('config/app.json');
   add('config/catalogue.json');
+  add('config/catalogue-doc.json');
   add('config/fixes.json');
   add('config/settings.json');
   add('rules/manifest.json');

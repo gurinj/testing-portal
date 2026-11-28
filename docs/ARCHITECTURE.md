@@ -67,7 +67,7 @@ report ──► propose (js/fix/propose.js)   config/fixes.json: per check id(-
 | `index.html`, `css/`, `fonts/` | The page and its design (tokens in `css/base.css`). |
 | `js/platform.js` | Everything that differs between site, Claude artifact and offline file: loading files, starting workers, downloads, clipboard. |
 | `js/validation/` | Pipeline, stages, workers, findings; `functions/` the JavaScript the rules call (settings, payment type, IBAN/BIC/LEI/RF, character sets, dates, guideline lists, and one file per stage for its own helpers); the list of function files is in `rules-worker.js` (the tests and tools read it from there). |
-| `js/ui/` | Screens: `start.js`, `run.js`, `report.js`, `xml-viewer.js`, `about.js`, `technical-check.js`, `fix.js`, `compare.js`, `email.js`; `exports.js` (CSV, printable report, summary); `common.js` (icons, wording). `js/app.js` holds the state, the core screens and the events. |
+| `js/ui/` | Screens: `start.js`, `run.js`, `report.js`, `xml-viewer.js`, `about.js`, `catalogue.js`, `technical-check.js`, `fix.js`, `compare.js`, `email.js`; `exports.js` (CSV, printable report, summary); `common.js` (icons, wording). `js/app.js` holds the state, the core screens and the events. |
 | `js/fix/` | M3 fixes: `locate.js` (elements and exact positions, one saxes pass), `edit.js` (apply, preview), `checks.js` (checks of typed values), `propose.js`, `session.js` (runs), `actions/` (one file per kind of fix). |
 | `js/compare/`, `js/email/` | M3 run comparison and email builder (no DOM, also used by the Node tests). |
 | `js/dev/` | Test file generator (used by the check page and the Node tests). |
@@ -171,7 +171,8 @@ The rules worker runs the **SaxonJS 2.7 Node build (`SaxonJS2N.js`) unchanged**,
 | Run: one card per module with the real progress | – | `js/ui/run.js` |
 | Report: status, facts, module strip, severity chips, search, findings by level, payment blocks and transactions | `#report` | `js/ui/report.js` |
 | XML viewer: line markers, step through findings, go to line; only the lines in view are in the page | `#xml` | `js/ui/xml-viewer.js` |
-| About: version, what is checked, limits, notices | `#about` | `js/ui/about.js` |
+| Catalogue: the validation catalogue document (whole), check tables with status, severity and search filters, what the settings in use change | `#catalogue` | `js/ui/catalogue.js` (data: `config/catalogue-doc.json`) |
+| About: version, limits, settings, notices, link to the Catalogue | `#about` | `js/ui/about.js` |
 | Fix the errors: proposals per finding, before/after view, apply and validate again | `#fix` | `js/ui/fix.js` |
 | Compare runs: resolved, still open, new | `#compare` | `js/ui/compare.js` |
 | Email for the customer: To, subject, text, Copy, Open in email app, attachments | `#email` | `js/ui/email.js` |

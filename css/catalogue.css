@@ -1,0 +1,99 @@
+/*
+ * Testing Portal – Catalogue screen (#catalogue, js/ui/catalogue.js).
+ * Uses the report's filter chips, stage strip and tables (app.css, layout.css).
+ */
+.catalogue .lead { max-width: 90ch; }
+.catalogue a.link { color: inherit; }
+.catfacts { display: grid; grid-template-columns: 3fr repeat(5, minmax(0, 1fr)); gap: 18px; margin-top: 20px; padding: 0 4px; }
+.catfacts dt { font-size: 14.5px; color: var(--g5); }
+.catfacts dd { font-weight: 650; font-variant-numeric: tabular-nums; }
+.catsrc { display: flex; gap: 10px; align-items: flex-start; margin-top: 18px; max-width: 90ch; color: var(--ink-2); font-size: 16px; }
+.catsrc .ic { margin-top: 3px; color: var(--g5); }
+.catlinks { display: flex; gap: 8px 20px; flex-wrap: wrap; margin-top: 16px; }
+
+.catsec { scroll-margin-top: 16px; }
+.catsec > h2 { margin-top: 40px; }
+.catsec > p { margin-top: 10px; max-width: 90ch; color: var(--ink-2); }
+.catsec h2:focus-visible { border-radius: 6px; }
+.stage-h { display: flex; align-items: center; gap: 12px; font-size: 24px; }
+.stage-h .n { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 18px; flex: none; }
+.stage-h .muted { font-weight: 600; }
+.catul { list-style: disc; padding-left: 22px; margin-top: 10px; max-width: 90ch; }
+.catol { list-style: decimal; padding-left: 26px; margin-top: 10px; max-width: 90ch; }
+.catul li + li, .catol li + li { margin-top: 5px; }
+.catol li::marker { font-weight: 750; }
+.cattasks { margin-top: 12px; border: 2px solid var(--g2); border-radius: 18px; overflow: hidden; }
+.cattasks li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 18px; }
+.cattasks li + li { border-top: 2px solid var(--g2); }
+.cattasks .box { display: grid; place-items: center; width: 24px; height: 24px; border: 2px solid var(--g3); border-radius: 7px; flex: none; margin-top: 1px; }
+.cattasks li.done .box { background: var(--green-2); border-color: var(--green-2); color: #fff; }
+.cattasks li.done > span:last-child { color: var(--g5); }
+
+/* checks: stage strip, filters and tables */
+.checkarea { margin-top: 8px; }
+.catstrip .mchip { cursor: pointer; }
+.catstrip .mchip:hover { border-color: var(--ink); }
+.catbar { position: sticky; top: 0; z-index: 20; background: #fff; margin: 14px -24px 0; padding: 2px 24px 12px; border-bottom: 2px solid var(--g2); }
+.checkarea .catsec { scroll-margin-top: 150px; }
+.catbar .fchip { min-height: 40px; padding: 0 16px; font-size: 15.5px; background: #fff; border: 2px solid var(--g3); }
+.catbar .fchip b { font-size: 17px; }
+.catbar .fchip.E { background: var(--red-soft); color: var(--red-dark); border-color: #F0B6AF; }
+.catbar .fchip.W { background: var(--amber-soft); color: var(--amber); border-color: var(--amber-line); }
+.catbar .fchip.I { background: var(--g1); color: var(--ink-2); }
+.catbar .fchip.st-yes { background: var(--green-soft); color: var(--green); border-color: #B9DCC8; }
+.catbar .fchip.st-covered { background: var(--yellow-pale); border-color: var(--yellow-deep); }
+.catbar .fchip.st-notbuilt { background: var(--amber-soft); color: var(--amber); border-color: var(--amber-line); }
+.catbar .fchip.st-off, .catbar .fchip.st-silent { background: var(--g1); color: var(--ink-2); }
+.catbar .fchip.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.catnone { margin-top: 10px; padding: 12px 16px; border: 2px dashed var(--g3); border-radius: 12px; color: var(--g5); font-size: 15px; }
+
+/* the same column widths in every check table */
+.cattbl td.id { font-weight: 750; white-space: nowrap; font-variant-numeric: tabular-nums; width: 64px; }
+.cattbl td.chk { min-width: 240px; }
+.cattbl td.sv { width: 128px; }
+.cattbl td.cd { width: 96px; white-space: nowrap; }
+.cattbl td.app { width: 30%; min-width: 230px; }
+.cattbl td.bi { width: 200px; }
+.cattbl .sev + .sev { margin-left: 4px; }
+.sevpart { display: inline-flex; align-items: center; gap: 6px; margin-left: 8px; font-size: 14px; color: var(--g5); white-space: normal; }
+.atag { display: inline-block; font-size: 14px; font-weight: 750; padding: 1px 11px; border-radius: 12px; white-space: nowrap; margin-right: 6px; vertical-align: 1px; }
+.atag.yes { background: var(--green-soft); color: var(--green); }
+.atag.off { background: var(--g1); color: var(--ink-2); border: 1.5px solid var(--g3); }
+.atag.silent { background: #fff; color: var(--ink-2); border: 1.5px dashed var(--g4); }
+.atag.covered { background: var(--yellow-pale); color: var(--ink); border: 1.5px solid var(--yellow-deep); }
+.atag.notbuilt { background: var(--amber-soft); color: var(--amber); border: 1.5px solid var(--amber-line); }
+.atag.was { text-decoration: line-through; opacity: .7; }
+.arest { color: var(--ink-2); }
+.setnote { display: flex; gap: 6px; align-items: flex-start; margin-top: 6px; font-size: 14.5px; color: var(--ink-2); }
+.setnote .ic { margin-top: 2px; color: var(--g5); }
+.btag { display: inline-block; font-size: 13px; font-weight: 700; padding: 0 8px; border-radius: 6px; border: 1.5px solid var(--g3); background: #fff; color: var(--ink); white-space: nowrap; }
+.btag.schjs { border-color: var(--g5); }
+.btag.js, .btag.xsd { background: var(--g1); }
+.brest { display: block; margin-top: 3px; color: var(--ink-2); }
+
+@media (max-width: 1020px) {
+  .catfacts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .catfacts > div:first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 620px) {
+  .catfacts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .catbar { position: static; margin: 14px -16px 0; padding: 2px 16px 10px; }
+  .checkarea .catsec { scroll-margin-top: 16px; }
+  .catbar .fchip { min-height: 36px; padding: 0 12px; font-size: 14.5px; }
+  .stage-h { font-size: 21px; }
+  /* tables as stacked cards */
+  .catalogue .stack thead { display: none; }
+  .catalogue .stack tr { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; padding: 12px 0; border-bottom: 1px solid var(--g2); }
+  .catalogue .stack td { display: block; border: 0; padding: 0; min-width: 0 !important; white-space: normal !important; }
+  .catalogue .stack td::before { content: attr(data-l); display: block; font-size: 12.5px; font-weight: 700; color: var(--g5); }
+  .catalogue .stack td:first-child::before, .cattbl td.chk::before { display: none; }
+  .catalogue .stack td:not(:first-child) { grid-column: 2; }
+  .cattbl td.chk { font-weight: 600; }
+  .cattbl td.sv, .cattbl td.cd { display: inline-flex; gap: 8px; align-items: center; }
+  .cattbl td.sv::before, .cattbl td.cd::before { display: inline; margin-right: 4px; }
+}
+@media print {
+  .catlinks, .catstrip, .catbar { display: none; }
+  .catsec { break-inside: auto; }
+  .cattbl tr { break-inside: avoid; }
+}
