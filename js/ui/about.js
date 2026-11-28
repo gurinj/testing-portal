@@ -1,14 +1,12 @@
 /*
- * Testing Portal – About: version, what is checked, limits, third-party
- * notices, and the link to the technical check.
+ * Testing Portal – About: version, limits, settings, third-party notices,
+ * and the links to the technical check and to the Catalogue screen, which
+ * lists every check (js/ui/catalogue.js; before 0.4.1-m3 a table on this page).
  */
 (function (g) {
   'use strict';
   const TP = g.TP = g.TP || {};
   const { ic, esc, dateLabel } = TP.ui.h;
-
-  // checks of stages 0–2 are built into the stage files; this list must match them
-  const BUILT_IN = ['0.1', '0.2', '0.3', '0.5', '0.7', '0.8', '0.9', '1.1', '1.2', '1.3', '1.4', '2.1', '2.2', '2.3', '2.4', '2.5', '2.6', '2.7', '2.8', '2.9', '2.10', '2.11'];
 
   const LIMITS = [
     'A temporary tool: static files that run in the browser. The production Testing Portal (Angular and Java) replaces it.',
@@ -108,22 +106,8 @@
     catch (err) { TP.ui.h.toast(`Could not save: ${err.message || err}`); }
   }
 
-  function stageRows(e) {
-    const cat = e.catalogue, ruleIds = new Set(e.manifest.ruleSets.flatMap(s => s.rules));
-    const implemented = new Set([...BUILT_IN, ...ruleIds]);
-    const rows = [];
-    for (const [st, name] of Object.entries(cat.stages)) {
-      const ids = Object.keys(cat.rules).filter(id => String(cat.rules[id].stage) === st && /^\d/.test(id) && id !== '2.x');
-      const done = ids.filter(id => implemented.has(id) || cat.rules[id].coveredBy).map(id => (implemented.has(id) ? id : `${id} (by ${cat.rules[id].coveredBy})`));
-      const notPossible = Object.keys(cat.notImplemented || {}).filter(id => id.split('.')[0] === st);
-      rows.push(`<tr><td>${st}</td><td>${esc(name)}</td><td>${done.length ? esc(done.join(', ')) : '<span class="muted">None yet</span>'}</td><td>${notPossible.length ? esc(notPossible.join(', ')) : '–'}</td></tr>`);
-    }
-    return rows.join('');
-  }
-
   function render(s) {
-    const e = TP.validation.engines, cfg = e.config || {}, cat = e.catalogue;
-    const ni = cat ? Object.entries(cat.notImplemented || {}) : [];
+    const e = TP.validation.engines, cfg = e.config || {};
     return `<section class="wrap">
       <h1 tabindex="-1">About the Testing Portal</h1>
       <p class="lead">A temporary tool for the service desk: it checks corporate pain.001 files before they go to CMIplus.</p>
@@ -149,9 +133,8 @@
         ${vSettings(e)}
         <div class="panel wide">
           <h2>What is checked</h2>
-          <p class="muted">Check ids of the validation catalogue (draft).</p>
-          <div class="tblwrap"><table class="tbl stagetbl"><thead><tr><th>Stage</th><th>Name</th><th>Checks in this version</th><th>Not possible yet</th></tr></thead><tbody>${cat ? stageRows(e) : ''}</tbody></table></div>
-          ${ni.length ? `<h3 class="lvl">Not possible yet</h3><ul>${ni.map(([id, why]) => `<li><b>${esc(id)}</b> ${esc(why)}</li>`).join('')}</ul>` : ''}
+          <p>Every check of the validation catalogue, what this version does with it and where it is built, is on the Catalogue page.</p>
+          <div class="factions"><a class="btn sec sm" href="#catalogue" data-fid="go-catalogue">${ic('table', 18)}Open the catalogue</a></div>
         </div>
         <div class="panel wide">
           <h2>Third-party software</h2>
@@ -173,5 +156,5 @@
     box.value = parts.join('\n\n');
   }
 
-  TP.ui.about = { render, mount, BUILT_IN, loadSettingsFile, downloadSettings, rerender, duration };
+  TP.ui.about = { render, mount, loadSettingsFile, downloadSettings, rerender, duration };
 })(typeof self !== 'undefined' ? self : globalThis);

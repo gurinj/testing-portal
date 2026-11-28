@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1-m3 – 2026-11-28 – Catalogue page
+
+- **Catalogue** in the menu (Validate · Catalogue · About, `#catalogue`): the whole validation catalogue document in the app's design – validation flow, every check of stages 0–10 with severity, reason code, what the app does with it ("In the app") and where it is built ("Built in": JavaScript, XML parser, XSD, Schematron, or Schematron with a JavaScript function for part of the check), decisions after confirmation, result report, out of scope, open points and sources.
+- Filters on the checks as on the report: status in the app (runs, off, cannot fire, covered, not built), severity and search; a strip to jump to a stage. Checks that the settings in use switch off or change (also a settings file loaded on About for the session) are marked on their row, and a check switched off as a whole counts as Off.
+- Data: `config/catalogue-doc.json`, made by `node tools/update-catalogue.js` from `docs/reference/validation-catalogue.md` (the Markdown export of the catalogue document of 2026-11-28). The tests check that it is the current conversion, that its checks are the checks of `config/catalogue.json` with the same severities and reason codes, and that "Built in" matches the code.
+- About: "What is checked" lists no checks any more; it links to the Catalogue page.
+- The offline file embeds the catalogue data.
+
 ## 0.4.0-m3 – 2026-11-24 – Fix the errors, runs and comparison, email
 
 - **Fix the errors** (`#fix`, from the report band of a rejected file or one with warnings): one proposal per finding with all its places, current and new value, a type tag (Corrected, Sample value, Entered value, Chosen, To enter) and a "Changes the payment" mark; before/after view of the XML; Apply and validate again. Proposals come from `config/fixes.json` (158 check ids: 55 calculated, 1 choice, 7 sample values, 13 entries, 82 manual with what to do instead). Only safe calculated changes are ticked. Structural XSD errors, amounts, IBANs and BICs are never guessed; IBAN, BIC, LEI, RF and country entries are checked as typed.
